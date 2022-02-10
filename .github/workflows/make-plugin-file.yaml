@@ -11,17 +11,14 @@ jobs:
         uses: actions/checkout@v2
       - name: zip up files
         run: zip -r wordscounter.plugin . -x *.git*
-      - name: Get current time
-        uses: 1466587594/get-current-time@v2
-        id: current-time
-        with:
-          format: YYYY-MM-DD_HHmm
-          utcOffset: "+02:00"
+      - name: Get current git hash
+        id: current-hash
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "v${{ steps.current-time.outputs.formattedTime }}"
-          title: "Compiled-at-${{ steps.current-time.outputs.formattedTime }}"
+          automatic_release_tag: "v${{ steps.current-hash.outputs.sha_short }}"
+          title: "Compiled-at-${{ steps.current-hash.outputs.sha_short }}"
           prerelease: true
           files: "wordscounter.plugin"
           
