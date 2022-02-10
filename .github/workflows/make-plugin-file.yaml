@@ -1,0 +1,24 @@
+name: create plugin file and publish it as release
+on: [push]
+jobs:
+  create_plugin_file:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - name: zip up files
+        run: zip -r wordscounter.plugin . -x *.git*
+      - name: Get current time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYY-MM-DD_HHmm
+          utcOffset: "+02:00"
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "v${{ steps.current-time.outputs.formattedTime }}"
+          title: "Compiled-at-${{ steps.current-time.outputs.formattedTime }}"
+          prerelease: true
+          files: "wordscounter.plugin"
+          
