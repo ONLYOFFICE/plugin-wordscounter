@@ -5,20 +5,19 @@ on:
       - master
 jobs:
   create_plugin_file:
-    runs-on: ubuntu-20.04
+    runs-on: "ubuntu-latest"
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
-      - name: zip up files
-        run: zip -r wordscounter.plugin . -x *.git*
       - name: Get current git hash
         id: current-hash
         run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      - name: zip up files
+        run: zip -r wordscounter-${{ steps.current-hash.outputs.sha_short }}.plugin . -x *.git*
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "v${{ steps.current-hash.outputs.sha_short }}"
-          title: "Compiled-at-${{ steps.current-hash.outputs.sha_short }}"
+          title: "Compiled from ${{ steps.current-hash.outputs.sha_short }}"
           prerelease: true
-          files: "wordscounter.plugin"
-          
+          files: "wordscounter-${{ steps.current-hash.outputs.sha_short }}.plugin"
