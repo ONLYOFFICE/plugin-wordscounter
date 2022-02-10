@@ -1,5 +1,8 @@
 name: create plugin file and publish it as release
-on: [push]
+on:
+  push:
+    branches:
+      - master
 jobs:
   create_plugin_file:
     runs-on: ubuntu-20.04
