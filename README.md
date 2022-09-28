@@ -1,3 +1,7 @@
+## Information
+
+This repository is an archive of plugin-wordscounter. Now it moved to the marketplace repository [onlyoffice.github.io](https://github.com/ONLYOFFICE/onlyoffice.github.io/tree/master/sdkjs-plugins/content).
+
 ## Overview
 
 Count words, characters (with/without spaces), and paragraphs in the selected part of your document. 
